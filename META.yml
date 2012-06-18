@@ -1,0 +1,26 @@
+---
+abstract: 'a section listing contributors'
+author:
+  - 'Keedi Kim - 김도형 <keedi@cpan.org>'
+build_requires: {}
+configure_requires:
+  ExtUtils::MakeMaker: 6.30
+dynamic_config: 0
+generated_by: 'Dist::Zilla version 4.300017, CPAN::Meta::Converter version 2.120921'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Pod-Weaver-Section-Contributors
+requires:
+  Dist::Zilla::Role::Stash::Plugins: 0
+  Moose: 0
+  Moose::Autobox: 0
+  Pod::Elemental::Element::Nested: 0
+  Pod::Elemental::Element::Pod5::Verbatim: 0
+  Pod::Weaver::Role::Section: 0
+resources:
+  bugtracker: https://rt.cpan.org/Dist/Display.html?Status=Active&Queue=Pod-Weaver-Section-Contributors
+  homepage: https://metacpan.org/module/Pod::Weaver::Section::Contributors
+  repository: http://github.com/keedi/Pod-Weaver-Section-Contributors.git
+version: 0.001

@@ -1,0 +1,13 @@
+Changes
+INSTALL
+LICENSE
+MANIFEST
+META.yml
+Makefile.PL
+README
+README.mkdn
+dist.ini
+lib/Pod/Weaver/Section/Contributors.pm
+t/release-pod-coverage.t
+t/release-pod-syntax.t
+weaver.ini
