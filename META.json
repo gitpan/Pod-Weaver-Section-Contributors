@@ -29,6 +29,7 @@
       "runtime" : {
          "requires" : {
             "Dist::Zilla::Role::Stash::Plugins" : "0",
+            "List::MoreUtils" : "0",
             "Moose" : "0",
             "Moose::Autobox" : "0",
             "Pod::Elemental::Element::Nested" : "0",
@@ -49,6 +50,6 @@
          "web" : "https://github.com/keedi/Pod-Weaver-Section-Contributors"
       }
    },
-   "version" : "0.003"
+   "version" : "0.004"
 }
 

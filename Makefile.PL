@@ -21,13 +21,14 @@ my %WriteMakefileArgs = (
   "NAME" => "Pod::Weaver::Section::Contributors",
   "PREREQ_PM" => {
     "Dist::Zilla::Role::Stash::Plugins" => 0,
+    "List::MoreUtils" => 0,
     "Moose" => 0,
     "Moose::Autobox" => 0,
     "Pod::Elemental::Element::Nested" => 0,
     "Pod::Elemental::Element::Pod5::Verbatim" => 0,
     "Pod::Weaver::Role::Section" => 0
   },
-  "VERSION" => "0.003",
+  "VERSION" => "0.004",
   "test" => {
     "TESTS" => "t/*.t"
   }
