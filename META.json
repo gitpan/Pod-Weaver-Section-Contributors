@@ -4,7 +4,7 @@
       "Keedi Kim - \u00ea\u00b9\u0080\u00eb\u008f\u0084\u00ed\u0098\u0095 <keedi@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300031, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "Dist::Zilla version 4.300030, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -50,6 +50,6 @@
          "web" : "https://github.com/keedi/Pod-Weaver-Section-Contributors"
       }
    },
-   "version" : "0.004"
+   "version" : "0.005"
 }
 

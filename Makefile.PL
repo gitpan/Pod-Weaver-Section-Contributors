@@ -28,7 +28,7 @@ my %WriteMakefileArgs = (
     "Pod::Elemental::Element::Pod5::Verbatim" => 0,
     "Pod::Weaver::Role::Section" => 0
   },
-  "VERSION" => "0.004",
+  "VERSION" => "0.005",
   "test" => {
     "TESTS" => "t/*.t"
   }
