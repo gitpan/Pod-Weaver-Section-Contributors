@@ -1,6 +1,6 @@
 package Pod::Weaver::Section::Contributors;
 {
-  $Pod::Weaver::Section::Contributors::VERSION = '0.005';
+  $Pod::Weaver::Section::Contributors::VERSION = '0.006';
 }
 use Moose;
 with 'Pod::Weaver::Role::Section';
@@ -33,8 +33,40 @@ has contributors => (
 );
 
 
+has all_modules => (
+    is      => 'rw',
+    isa     => 'Bool',
+    lazy    => 1,
+    default => 0,
+);
+
+
 sub weave_section {
     my ($self, $document, $input) = @_;
+
+    #
+    # all_modules
+    #
+    #   this code is stealed from Pod::Weaver::Section::Support
+    #
+
+    ## Check if all_modules is found on the stash
+    if ( $input->{zilla} ) {
+        my $stash  = $input->{zilla}->stash_named('%PodWeaver');
+        my $config = $stash->get_stashed_config($self) if $stash;
+
+        $self->all_modules($config->{all_modules})
+            if defined $config && defined $config->{all_modules};
+    }
+
+    ## Is this the main module POD?
+    if ( ! $self->all_modules ) {
+        return if $input->{zilla}->main_module->name ne $input->{filename};
+    }
+
+    #
+    # contributors
+    #
 
     ## 1 - add contributors passed to Dist::Zilla::Stash::PodWeaver
     if ( $input->{zilla} ) {
@@ -85,7 +117,6 @@ sub weave_section {
             for @stopwords;
     }
 
-
     my $multiple_contributors = @contributors > 1;
     my $name = $multiple_contributors ? 'CONTRIBUTORS' : 'CONTRIBUTOR';
 
@@ -109,6 +140,10 @@ sub weave_section {
             command => 'back', content => '',
         }),
     ] if $multiple_contributors;
+
+    #
+    # head
+    #
 
     ## Check if head is found on the stash
     if ( $input->{zilla} ) {
@@ -148,7 +183,7 @@ Pod::Weaver::Section::Contributors - a section listing contributors
 
 =head1 VERSION
 
-version 0.005
+version 0.006
 
 =head1 SYNOPSIS
 
@@ -203,6 +238,14 @@ The list of contributors.
 
 In case the value is passed to C<weave_section()>, to Pod::Weaver
 and to the Pod::Weaver stash, it merges all contributors.
+
+=head2 all_modules
+
+Enable this if you want to add the CONTRIBUTOR/CONTRIBUTORS section to
+all the modules in a dist, not only the main one. Defaults to false.
+
+In case the value is passed both to Pod::Weaver and to the Pod::Weaver stash,
+it uses the value found in the stash.
 
 =for Pod::Coverage mvp_multivalue_args
 
@@ -265,6 +308,10 @@ carandraug - Carnë Draug (cpan: CDRAUG) <cdraug@cpan.org>
 =item *
 
 ether - Karen Etheridge (cpan: ETHER) <ether@cpan.org>
+
+=item *
+
+thaljef - Jeffrey Ryan Thalhammer (cpan: THALJEF) <thaljef@cpan.org>
 
 =back
 
