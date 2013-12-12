@@ -1,10 +1,10 @@
 {
    "abstract" : "a section listing contributors",
    "author" : [
-      "Keedi Kim - \u00ea\u00b9\u0080\u00eb\u008f\u0084\u00ed\u0098\u0095 <keedi@cpan.org>"
+      "Keedi Kim - \uae40\ub3c4\ud615 <keedi@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300031, CPAN::Meta::Converter version 2.120921",
+   "generated_by" : "Dist::Zilla version 5.006, CPAN::Meta::Converter version 2.132830",
    "license" : [
       "perl_5"
    ],
@@ -50,6 +50,6 @@
          "web" : "https://github.com/keedi/Pod-Weaver-Section-Contributors"
       }
    },
-   "version" : "0.006"
+   "version" : "0.007"
 }
 

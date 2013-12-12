@@ -1,6 +1,6 @@
 package Pod::Weaver::Section::Contributors;
 {
-  $Pod::Weaver::Section::Contributors::VERSION = '0.006';
+  $Pod::Weaver::Section::Contributors::VERSION = '0.007';
 }
 use Moose;
 with 'Pod::Weaver::Role::Section';
@@ -108,8 +108,8 @@ sub weave_section {
         my $config = $stash->_config;
 
         my @stopwords = uniq
-            map { split / /        }
-            map { /^(.*) <.*$/; $1 }
+            map { $_ ? split / / : ()    }
+            map { /^(.*?)(\s+<.*)?$/; $1 }
             @contributors;
         my $i = 0;
         # TODO: use the proper API (not yet written) to add this data
@@ -175,7 +175,7 @@ __END__
 
 =pod
 
-=encoding utf-8
+=encoding UTF-8
 
 =head1 NAME
 
@@ -183,7 +183,7 @@ Pod::Weaver::Section::Contributors - a section listing contributors
 
 =head1 VERSION
 
-version 0.006
+version 0.007
 
 =head1 SYNOPSIS
 
