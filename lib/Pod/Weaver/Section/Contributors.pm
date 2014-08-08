@@ -1,7 +1,5 @@
 package Pod::Weaver::Section::Contributors;
-{
-  $Pod::Weaver::Section::Contributors::VERSION = '0.007';
-}
+$Pod::Weaver::Section::Contributors::VERSION = '0.008';
 use Moose;
 with 'Pod::Weaver::Role::Section';
 # ABSTRACT: a section listing contributors
@@ -44,44 +42,34 @@ has all_modules => (
 sub weave_section {
     my ($self, $document, $input) = @_;
 
-    #
-    # all_modules
-    #
-    #   this code is stealed from Pod::Weaver::Section::Support
-    #
+    my $stash = $input->{zilla} ? $input->{zilla}->stash_named('%PodWeaver') : undef;
 
-    ## Check if all_modules is found on the stash
-    if ( $input->{zilla} ) {
-        my $stash  = $input->{zilla}->stash_named('%PodWeaver');
-        my $config = $stash->get_stashed_config($self) if $stash;
-
-        $self->all_modules($config->{all_modules})
-            if defined $config && defined $config->{all_modules};
-    }
+    ## get configs ('head', 'contributors', 'all_modules') provided to [%PodWeaver] in dist.ini
+    $stash->merge_stashed_config($self) if $stash;
 
     ## Is this the main module POD?
-    if ( ! $self->all_modules ) {
+    if ( $input->{zilla} && ! $self->all_modules ) {
         return if $input->{zilla}->main_module->name ne $input->{filename};
     }
 
     #
-    # contributors
+    # assemble list of contributors
     #
 
-    ## 1 - add contributors passed to Dist::Zilla::Stash::PodWeaver
-    if ( $input->{zilla} ) {
-        my $stash = $input->{zilla}->stash_named('%PodWeaver');
-        $stash->merge_stashed_config($self) if $stash;
-    }
-
-    ## 2 - get contributors passed to Pod::Weaver::Section::Contributors
+    ## get contributors passed to [%PodWeaver] and Pod::Weaver::Section::Contributors
     my @contributors = @{$self->contributors};
 
-    ## 3 - get contributors from $input parameter of weave_section()
+    ## get contributors from $input parameter of weave_section()
     push(@contributors, @{$input->{contributors}})
         if $input->{contributors} && ref($input->{contributors}) eq 'ARRAY';
 
-    ## 4 - get contributors from source comments
+    ## get contributors from Dist::Zilla metadata
+    if ($input->{zilla}
+            and my $_contributors = $input->{zilla}->distmeta->{x_contributors}) {
+        push(@contributors, @$_contributors);
+    }
+
+    ## get contributors from source comments
     my $ppi_document = $input->{ppi_document};
     $ppi_document->find( sub {
         my $ppi_node = $_[1];
@@ -92,30 +80,14 @@ sub weave_section {
         return 0;
     });
 
-    ## 5 - remove repeated names, and sort them alphabetically
+    ## remove repeated names
     @contributors = uniq (@contributors);
-    @contributors = sort (@contributors);
 
     return unless @contributors;
 
-    ## 6 - add contributors to the stash as stopwords
-    if ( $input->{zilla}
-        and my $stash = $input->{zilla}->stash_named('%PodWeaver')
-    ) {
-        # TODO: no good way yet of registering a stash from a weaver section
-        #do { $stash = PodWeaver->new; $self->_register_stash('%PodWeaver', $stash) }
-        #    unless defined $stash;
-        my $config = $stash->_config;
-
-        my @stopwords = uniq
-            map { $_ ? split / / : ()    }
-            map { /^(.*?)(\s+<.*)?$/; $1 }
-            @contributors;
-        my $i = 0;
-        # TODO: use the proper API (not yet written) to add this data
-        do { $config->{"-StopWords.include[$i]"} = $_; $i++ }
-            for @stopwords;
-    }
+    #
+    # assemble pod elements
+    #
 
     my $multiple_contributors = @contributors > 1;
     my $name = $multiple_contributors ? 'CONTRIBUTORS' : 'CONTRIBUTOR';
@@ -141,17 +113,24 @@ sub weave_section {
         }),
     ] if $multiple_contributors;
 
+
     #
-    # head
+    # pass list of contributors to the StopWords plugin and Pod::Spell via directives
     #
 
-    ## Check if head is found on the stash
-    if ( $input->{zilla} ) {
-        my $stash  = $input->{zilla}->stash_named('%PodWeaver');
-        my $config = $stash->get_stashed_config($self) if $stash;
+    my @stopwords = uniq
+        map { $_ ? split / / : ()    }
+        map { /^(.*?)(\s+<.*)?$/; $1 }
+        @contributors;
 
-        $self->head($config->{head}) if defined $config && defined $config->{head};
-    }
+    unshift @$result, Pod::Elemental::Element::Pod5::Command->new({
+        command => 'for', content => join(' ', 'stopwords', @stopwords),
+    });
+
+
+    #
+    # create the section at the right level
+    #
 
     if ( $self->head ) {
         $document->children->push(
@@ -183,7 +162,7 @@ Pod::Weaver::Section::Contributors - a section listing contributors
 
 =head1 VERSION
 
-version 0.007
+version 0.008
 
 =head1 SYNOPSIS
 
@@ -281,7 +260,7 @@ L<Dist::Zilla>
 
 =item *
 
-L<Dist::Zilla::Role::Stash::Plugins>
+L<Dist::Zilla::Stash::PodWeaver>
 
 =item *
 
@@ -317,7 +296,7 @@ thaljef - Jeffrey Ryan Thalhammer (cpan: THALJEF) <thaljef@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2013 by Keedi Kim.
+This software is copyright (c) 2014 by Keedi Kim.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

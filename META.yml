@@ -4,24 +4,23 @@ author:
   - 'Keedi Kim - 김도형 <keedi@cpan.org>'
 build_requires: {}
 configure_requires:
-  ExtUtils::MakeMaker: 6.30
+  ExtUtils::MakeMaker: '0'
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 5.006, CPAN::Meta::Converter version 2.132830'
+generated_by: 'Dist::Zilla version 5.020, CPAN::Meta::Converter version 2.140640'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
-  version: 1.4
+  version: '1.4'
 name: Pod-Weaver-Section-Contributors
 requires:
-  Dist::Zilla::Role::Stash::Plugins: 0
-  List::MoreUtils: 0
-  Moose: 0
-  Moose::Autobox: 0
-  Pod::Elemental::Element::Nested: 0
-  Pod::Elemental::Element::Pod5::Verbatim: 0
-  Pod::Weaver::Role::Section: 0
+  List::MoreUtils: '0'
+  Moose: '0'
+  Moose::Autobox: '0'
+  Pod::Elemental::Element::Nested: '0'
+  Pod::Elemental::Element::Pod5::Verbatim: '0'
+  Pod::Weaver::Role::Section: '0'
 resources:
   bugtracker: https://github.com/keedi/Pod-Weaver-Section-Contributors/issues
   homepage: https://metacpan.org/module/Pod::Weaver::Section::Contributors
   repository: https://github.com/keedi/Pod-Weaver-Section-Contributors.git
-version: 0.007
+version: '0.008'
