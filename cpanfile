@@ -1,6 +1,5 @@
 requires "List::MoreUtils" => "0";
 requires "Moose" => "0";
-requires "Moose::Autobox" => "0";
 requires "Pod::Elemental::Element::Nested" => "0";
 requires "Pod::Elemental::Element::Pod5::Verbatim" => "0";
 requires "Pod::Weaver::Role::Section" => "0";

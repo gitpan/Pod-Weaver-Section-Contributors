@@ -4,7 +4,7 @@
       "Keedi Kim - 김도형 <keedi@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 5.020, CPAN::Meta::Converter version 2.140640",
+   "generated_by" : "Dist::Zilla version 5.024, CPAN::Meta::Converter version 2.142690",
    "license" : [
       "perl_5"
    ],
@@ -34,7 +34,6 @@
          "requires" : {
             "List::MoreUtils" : "0",
             "Moose" : "0",
-            "Moose::Autobox" : "0",
             "Pod::Elemental::Element::Nested" : "0",
             "Pod::Elemental::Element::Pod5::Verbatim" : "0",
             "Pod::Weaver::Role::Section" : "0"
@@ -53,6 +52,6 @@
          "web" : "https://github.com/keedi/Pod-Weaver-Section-Contributors"
       }
    },
-   "version" : "0.008"
+   "version" : "0.009"
 }
 
